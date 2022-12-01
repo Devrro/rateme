@@ -3,7 +3,7 @@ from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import QrModel, PublicPlaceModel
-from .serializers import QrModelSerializer, PublicPlaceSerializer
+from .serializers import QrModelSerializer, PublicPlaceSerializer, GetPublicPlacesSerializer
 
 from django.contrib.auth import get_user_model
 from ..users.models import UserModel as UserModelTyping
@@ -15,6 +15,13 @@ class ListAllQrCodesView(ListAPIView):
     queryset = QrModel.objects.all()
     serializer_class = QrModelSerializer
     permission_classes = (AllowAny,)
+
+
+class ListAllPlacesView(ListAPIView):
+    queryset = PublicPlaceModel.objects.all()
+    serializer_class = GetPublicPlacesSerializer
+    permission_classes = (AllowAny,)
+
 
 
 class CreatePublicPlaceView(CreateAPIView):
