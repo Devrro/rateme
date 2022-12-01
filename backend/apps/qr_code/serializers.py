@@ -16,25 +16,26 @@ class AddressSerializer(ModelSerializer):
 
 
 class QrModelSerializer(ModelSerializer):
+    qr_code = SerializerMethodField()
     class Meta:
         model = QrModel
-        fields = (
-            'public_place_id',
-            'qr_url',
-            'qr_code',
-            'created_at',
-        )
-        read_only_fields = (
-            'qr_url',
-            'qr_code',
-            'created_at',
-        )
+        fields = '__all__'
+        # read_only_fields = (
+        #     'public_place','qr_url','qr_code','created_at'
+        # )
+
+    def get_qr_code(self, obj):
+        req = self.context.get('request')
+        qr_code_instance = QrModel.objects.get(pk=obj.public_place)
+        abs_qr_path = req.build_absolute_uri(qr_code_instance.qr_code.url)
+        return abs_qr_path
+
 
 class GetPublicPlacesSerializer(ModelSerializer):
     owner = UserSerializer()
     address = SerializerMethodField()
-    # qr_code = QrModelSerializer(source='id')
-    qr_code = SerializerMethodField()
+    # qr_code = QrModelSerializer(source='public_place', read_only=True)
+    qr_data = SerializerMethodField()
 
     class Meta:
         model = PublicPlaceModel
@@ -47,7 +48,7 @@ class GetPublicPlacesSerializer(ModelSerializer):
             'working_time_end',
             'created_at',
             'address',
-            'qr_code',
+            'qr_data',
         )
 
     def get_address(self, obj: PublicPlaceModel):
@@ -55,11 +56,11 @@ class GetPublicPlacesSerializer(ModelSerializer):
         address = AddressSerializer(instance=address_instance)
         return address.data
 
-    def get_qr_code(self, obj: PublicPlaceModel):
+    #
+    def get_qr_data(self, obj: PublicPlaceModel):
         qr_code_instance = QrModel.objects.get(public_place_id__exact=obj.id)
-        qr_code = QrModelSerializer(instance=qr_code_instance)
+        qr_code = QrModelSerializer(instance=qr_code_instance,context=self.context)
         return qr_code.data
-
 
 
 class PublicPlaceSerializer(ModelSerializer):

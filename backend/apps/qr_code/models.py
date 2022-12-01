@@ -51,5 +51,3 @@ class QrModel(models.Model):
     qr_code = models.ImageField(upload_to=save_qr_to, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
 
-    def save(self, *args, **kwargs):
-        super(QrModel, self).save(*args, **kwargs)

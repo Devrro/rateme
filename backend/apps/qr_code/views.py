@@ -22,6 +22,11 @@ class ListAllPlacesView(ListAPIView):
     serializer_class = GetPublicPlacesSerializer
     permission_classes = (AllowAny,)
 
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
 
 class CreatePublicPlaceView(CreateAPIView):
     queryset = PublicPlaceModel.objects.all()
