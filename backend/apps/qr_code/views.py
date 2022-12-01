@@ -23,7 +23,6 @@ class ListAllPlacesView(ListAPIView):
     permission_classes = (AllowAny,)
 
 
-
 class CreatePublicPlaceView(CreateAPIView):
     queryset = PublicPlaceModel.objects.all()
     serializer_class = PublicPlaceSerializer

@@ -34,6 +34,7 @@ class UserCreateView(CreateAPIView):
 
 class UserAddAvatarView(UpdateAPIView):
     serializer_class = AvatarSerializer
+    permission_classes = (IsAuthenticated,)
 
     def get_object(self):
         return self.request.user.profile

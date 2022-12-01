@@ -46,8 +46,10 @@ class AddressModel(models.Model):
 class QrModel(models.Model):
     class Meta:
         db_table = 'qr_code'
-
-    public_place = models.OneToOneField(PublicPlaceModel, on_delete=models.CASCADE)
+    public_place = models.OneToOneField(PublicPlaceModel,primary_key=True, on_delete=models.CASCADE)
     qr_url = models.CharField(max_length=255)
     qr_code = models.ImageField(upload_to=save_qr_to, blank=False, null=False)
     created_at = models.DateTimeField(auto_now_add=True)
+
+    def save(self, *args, **kwargs):
+        super(QrModel, self).save(*args, **kwargs)

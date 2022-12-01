@@ -1,12 +1,10 @@
-from io import BytesIO
-
-from PIL import Image
 from django.core.files.images import ImageFile
 from django.db.transaction import atomic
 from rest_framework.serializers import ModelSerializer, SerializerMethodField
-import qrcode as q
 from .models import QrModel, AddressModel, PublicPlaceModel
 from ..users.serializers import UserSerializer
+
+from .services import create_qr_url
 
 basis = 'localhost:8000'
 
@@ -21,20 +19,21 @@ class QrModelSerializer(ModelSerializer):
     class Meta:
         model = QrModel
         fields = (
-            'qr_code',
+            'public_place_id',
             'qr_url',
+            'qr_code',
             'created_at',
         )
         read_only_fields = (
-            'qr_code',
             'qr_url',
+            'qr_code',
             'created_at',
         )
-
 
 class GetPublicPlacesSerializer(ModelSerializer):
     owner = UserSerializer()
     address = SerializerMethodField()
+    # qr_code = QrModelSerializer(source='id')
     qr_code = SerializerMethodField()
 
     class Meta:
@@ -60,6 +59,7 @@ class GetPublicPlacesSerializer(ModelSerializer):
         qr_code_instance = QrModel.objects.get(public_place_id__exact=obj.id)
         qr_code = QrModelSerializer(instance=qr_code_instance)
         return qr_code.data
+
 
 
 class PublicPlaceSerializer(ModelSerializer):
@@ -90,7 +90,7 @@ class PublicPlaceSerializer(ModelSerializer):
         public_place = PublicPlaceModel.objects.create(**validated_data)
         AddressModel.objects.create(**address, public_place=public_place)
         img_url = f"{basis}/place/{public_place.id}"
-        img = self.create_qr_url(url=img_url)
+        img = create_qr_url(url=img_url)
         img_file = ImageFile(file=img, name=f'{public_place.id}.png')
         QrModel.objects.create(
             public_place=public_place,
@@ -98,19 +98,3 @@ class PublicPlaceSerializer(ModelSerializer):
             qr_url=img_url,
         )
         return public_place
-
-    @staticmethod
-    def create_qr_url(url: str):
-        qrcode = q.QRCode(
-            version=1,
-            error_correction=q.constants.ERROR_CORRECT_L,
-            box_size=10,
-            border=5,
-        )
-        qrcode.add_data(url)
-        qrcode.make(fit=True)
-
-        img = qrcode.make_image(fill_color='black', back_color='white')
-        buffer = BytesIO()
-        img.save(stream=buffer, format='PNG')
-        return buffer
