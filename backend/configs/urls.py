@@ -28,4 +28,7 @@ urlpatterns = [
     path('token', TokenObtainPairView.as_view(), name='obtain_token_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='refresh_token_pair')
 ]
+
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)
+handler500 = 'rest_framework.exceptions.server_error'
+handler400 = 'rest_framework.exceptions.bad_request'

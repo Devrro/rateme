@@ -8,6 +8,7 @@ REST_FRAMEWORK = {
     'DEFAULT_FILTER_BACKENDS': (
         'django_filters.rest_framework.DjangoFilterBackend',
     ),
-    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
-    'PAGE_SIZE': 20
+    'DEFAULT_PAGINATION_CLASS': 'core.pagination.page_pagination.PagePagination',
+    'PAGE_SIZE': 20,
+    'EXCEPTION_HANDLER':'core.handlers.error_handler.rateme_exception_handler'
 }

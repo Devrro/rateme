@@ -35,12 +35,28 @@ class CreatePublicPlaceView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         data = self.request.data
-        serializer = self.serializer_class(data=data,partial=True)
+        serializer = self.serializer_class(data=data, partial=True, context={"request": request}, many=False)
         if serializer.is_valid():
             serializer.save(owner=self.request.user)
             return Response(serializer.validated_data)
         else:
             return Response(serializer.errors)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
+
+class DeletePublicPlaceView(DestroyAPIView):
+    queryset = PublicPlaceModel.objects.all()
+    serializer_class = GetPublicPlacesSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        qs = self.queryset.filter(pk=self.kwargs.get('pk', None))
+        print(qs.query)
+        return qs
 
 
 # else:
