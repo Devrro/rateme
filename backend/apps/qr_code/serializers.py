@@ -35,17 +35,17 @@ class QrModelSerializer(ModelSerializer):
 
 
 class GetPublicPlacesSerializer(ModelSerializer):
-    owner = UserSerializer()
+    user = UserSerializer(read_only=True)
     address = SerializerMethodField()
     # qr_code = QrModelSerializer(source='public_place', read_only=True)
-    qr_data = SerializerMethodField()
+    qr_data = SerializerMethodField(read_only=True)
 
     class Meta:
         model = PublicPlaceModel
         # fields = '__all__'
         fields = (
             'id',
-            'owner',
+            'user',
             'name',
             'working_time_start',
             'working_time_end',
@@ -69,13 +69,13 @@ class GetPublicPlacesSerializer(ModelSerializer):
 class PublicPlaceSerializer(ModelSerializer):
     qr_code = QrModelSerializer(read_only=True)
     address = AddressSerializer()
-    owner = UserSerializer(source='owner_id')
+    user = UserSerializer(source='user_id')
 
     class Meta:
         model = PublicPlaceModel
         fields = (
             'name',
-            'owner',
+            'user',
             'working_time_start',
             'working_time_end',
             'created_at',
@@ -95,8 +95,7 @@ class PublicPlaceSerializer(ModelSerializer):
         AddressModel.objects.create(**address, public_place=public_place)
 
         req = self.context.get('request')
-        abs_qr_path = req.build_absolute_uri(f"/place/{public_place.id}")
-
+        abs_qr_path = req.build_absolute_uri(f"/rate_place/{public_place.id}")
         img = create_qr_url(url=abs_qr_path)
         img_file = ImageFile(file=img, name=f'{public_place.id}.png')
         QrModel.objects.create(

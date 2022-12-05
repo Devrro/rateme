@@ -10,15 +10,6 @@ export interface IUserModelInfo {
   id: number,
   email: string,
   profile: IProfile,
-  user_role: IUserRole[]
-}
-
-// export interface IDoctor<T> extends IUserModelInfo {
-//
-// }
-
-export interface IPatient<T> extends IUserModelInfo {
-   patient_card:T
 }
 
 export interface IProfile {
@@ -31,7 +22,3 @@ export interface IProfile {
   about_user: string,
 }
 
-export interface IUserRole {
-  role: string,
-  code: number,
-}

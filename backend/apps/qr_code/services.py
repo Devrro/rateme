@@ -4,7 +4,7 @@ import qrcode as q
 
 
 def save_qr_to(instance, file: str):
-    return os.path.join(f'{instance.public_place.owner.id}', 'qr', f"{file}")
+    return os.path.join(f'{instance.public_place.user.id}', 'qr', f"{file}")
 
 
 def create_qr_url(url: str, version=1, box_size=10, border=5, fit=True, fill_color='black', back_color='white',

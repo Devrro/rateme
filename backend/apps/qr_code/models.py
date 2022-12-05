@@ -17,7 +17,7 @@ class PublicPlaceModel(models.Model):
         db_table = 'public_place'
 
     id = models.UUIDField(primary_key=True, default=uuid.uuid1)
-    owner = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='users')
+    user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='users')
     name = models.CharField(max_length=255, blank=False, null=False)
     working_time_start = models.CharField(
         validators=[RegexValidator("([01]?[0-9]|2[0-3]):[0-5][0-9]")],

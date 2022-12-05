@@ -1,9 +1,10 @@
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView
-from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, DestroyAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny, IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 
-from .models import QrModel, PublicPlaceModel
-from .serializers import QrModelSerializer, PublicPlaceSerializer, GetPublicPlacesSerializer
+from core.permissions.place_owner_permission import PlaceOwnerPermission
+from .models import QrModel, PublicPlaceModel, AddressModel
+from .serializers import QrModelSerializer, PublicPlaceSerializer, GetPublicPlacesSerializer, AddressSerializer
 
 from django.contrib.auth import get_user_model
 from ..users.models import UserModel as UserModelTyping
@@ -15,6 +16,26 @@ class ListAllQrCodesView(ListAPIView):
     queryset = QrModel.objects.all()
     serializer_class = QrModelSerializer
     permission_classes = (AllowAny,)
+
+
+class ListAuthUserPlacesView(ListAPIView):
+    queryset = PublicPlaceModel.objects.all()
+    serializer_class = GetPublicPlacesSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        qs = self.queryset.filter(user=self.request.user)
+        return qs
+
+
+class ListPlacesByUserId(ListAPIView):
+    queryset = PublicPlaceModel.objects.all()
+    serializer_class = GetPublicPlacesSerializer
+    permission_classes = (PlaceOwnerPermission or IsAdminUser,)
+
+    def get_queryset(self):
+        qs = self.queryset.filter(user_id=self.kwargs.get('pk', None))
+        return qs
 
 
 class ListAllPlacesView(ListAPIView):
@@ -37,7 +58,7 @@ class CreatePublicPlaceView(CreateAPIView):
         data = self.request.data
         serializer = self.serializer_class(data=data, partial=True, context={"request": request}, many=False)
         if serializer.is_valid():
-            serializer.save(owner=self.request.user)
+            serializer.save(user=self.request.user)
             return Response(serializer.validated_data)
         else:
             return Response(serializer.errors)
@@ -48,16 +69,36 @@ class CreatePublicPlaceView(CreateAPIView):
         return context
 
 
-class DeletePublicPlaceView(DestroyAPIView):
+class UpdatePublicPlaceView(UpdateAPIView):
     queryset = PublicPlaceModel.objects.all()
     serializer_class = GetPublicPlacesSerializer
-    permission_classes = (AllowAny,)
+    permission_classes = (PlaceOwnerPermission,)
 
     def get_queryset(self):
         qs = self.queryset.filter(pk=self.kwargs.get('pk', None))
-        print(qs.query)
         return qs
 
 
-# else:
-#     return Response(serializer.errors)
+class UpdatePublicPlaceAddressView(UpdateAPIView):
+    queryset = AddressModel.objects.all()
+    serializer_class = AddressSerializer
+    permission_classes = (AllowAny,)
+
+    def get_queryset(self):
+        qs = self.queryset.filter(public_place_id__exact=self.kwargs.get('pk', None))
+        return qs
+
+    def get_object(self):
+        qs = self.get_queryset()
+        obj = get_object_or_404(qs,)
+        return obj
+
+
+class DeletePublicPlaceView(DestroyAPIView):
+    queryset = PublicPlaceModel.objects.all()
+    serializer_class = GetPublicPlacesSerializer
+    permission_classes = (PlaceOwnerPermission,)
+
+    def get_queryset(self):
+        qs = self.queryset.filter(pk=self.kwargs.get('pk', None))
+        return qs
