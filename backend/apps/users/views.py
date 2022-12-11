@@ -1,12 +1,13 @@
-from rest_framework import status
-from rest_framework.generics import ListAPIView, CreateAPIView, UpdateAPIView, get_object_or_404
-from rest_framework.permissions import AllowAny, IsAuthenticated
-
 from django.contrib.auth import get_user_model
+
+from rest_framework import status
+from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, get_object_or_404
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
-from .models import UserModel as UserModelPrototype, ProfileModel
-from .serializers import UserSerializer, AvatarSerializer, ProfileSerializer
+from .models import ProfileModel
+from .models import UserModel as UserModelPrototype
+from .serializers import AvatarSerializer, ProfileSerializer, UserSerializer
 
 UserModel: UserModelPrototype = get_user_model()
 
@@ -31,6 +32,16 @@ class UserCreateView(CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = (AllowAny,)
 
+    def post(self, request, *args, **kwargs):
+        data = self.request.data
+        login = data.get('login', None).lower()
+        data['login'] = login
+        serializer = self.serializer_class(data=data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({'detail':'You are signed up'}, status=status.HTTP_201_CREATED)
+        else:
+            return Response({'detail':serializer.errors},status=status.HTTP_403_FORBIDDEN)
 
 class UserAddAvatarView(UpdateAPIView):
     serializer_class = AvatarSerializer
@@ -51,7 +62,7 @@ class UserListSelfView(ListAPIView):
     permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        qs = self.queryset.filter(email=self.request.user)
+        qs = self.queryset.filter(login=self.request.user)
         return qs
 
 
@@ -73,6 +84,7 @@ class UserListByIdView(ListAPIView):
         user = get_object_or_404(qs)
         return user
 
+
 class UpdateMyProfileView(UpdateAPIView):
     queryset = ProfileModel.objects.all()
     serializer_class = ProfileSerializer
@@ -91,6 +103,7 @@ class UpdateMyProfileView(UpdateAPIView):
     """
         Probably should rework this soon
     """
+
     def patch(self, request, *args, **kwargs):
 
         if self.request.data == {}:

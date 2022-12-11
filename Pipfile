@@ -11,8 +11,13 @@ djangorestframework-simplejwt = "*"
 django-filter = "*"
 mysqlclient = "*"
 python-dotenv = "*"
+redis = "*"
+celery = "*"
+django-celery-beat = "*"
+django-celery-results = "*"
 
 [dev-packages]
+isort = "*"
 
 [requires]
 python_version = "3.10"

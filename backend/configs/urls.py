@@ -13,19 +13,19 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.conf.urls.static import static
-from django.contrib import admin
-from django.urls import path, include
-
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
-from .settings import MEDIA_URL,MEDIA_ROOT
+from django.conf.urls.static import static
+from django.contrib import admin
+from django.urls import include, path
+
+from .settings import MEDIA_ROOT, MEDIA_URL
 
 urlpatterns = [
     path('users', include('apps.users.urls')),
     path('places', include('apps.qr_code.urls')),
     path('review', include('apps.reviews.urls')),
-    path('token', TokenObtainPairView.as_view(), name='obtain_token_pair'),
+    path('login', TokenObtainPairView.as_view(), name='obtain_token_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='refresh_token_pair')
 ]
 

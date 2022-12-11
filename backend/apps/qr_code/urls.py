@@ -1,11 +1,19 @@
 from django.urls import path
 
-from .views import ListAllQrCodesView, CreatePublicPlaceView, ListAllPlacesView, DeletePublicPlaceView, \
-    ListAuthUserPlacesView, ListPlacesByUserId, UpdatePublicPlaceView, UpdatePublicPlaceAddressView
+from .views import (
+    CreatePublicPlaceView,
+    DeletePublicPlaceView,
+    ListAllPlacesView,
+    ListAllQrCodesView,
+    ListAuthUserPlacesView,
+    ListPlacesByUserId,
+    UpdatePublicPlaceAddressView,
+    UpdatePublicPlaceView,
+)
 
 urlpatterns = [
     path('/all', ListAllPlacesView.as_view(), name='list_all_places'),
-    path('/my_places', ListAuthUserPlacesView.as_view(), name='list_all_places'),
+    path('/my_places', ListAuthUserPlacesView.as_view(), name='list_user_places'),
 
     path('/update_place_by_id/<str:pk>', UpdatePublicPlaceView.as_view(), name='update_place_by_id'),
 

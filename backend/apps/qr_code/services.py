@@ -1,5 +1,6 @@
 import os.path
 from io import BytesIO
+
 import qrcode as q
 
 

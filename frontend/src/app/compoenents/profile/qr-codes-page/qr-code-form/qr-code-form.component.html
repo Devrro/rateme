@@ -1,0 +1,28 @@
+<form class="form-group" (ngSubmit)="_SubmitPlace()" [formGroup]="_PlaceGroup">
+  <div class="col">
+    <div class="row">
+      <label for="name">Name of your place</label>
+      <input class="form-control" required  id="name" name="name" formControlName="name">
+    </div>
+    <div formGroupName="address" class="row mb-2">
+      <label for="country">Country</label>
+<!--      <input class="form-control" required id="country" name="name" formControlName="country">-->
+      <div class="form-control">
+        <mat-form-field id="country" class="w-100">
+          <mat-select formControlName="country">
+            <mat-option class="dropdown-item bg-white" [value]="'UA'">Ukraine</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <label for="city">City</label>
+      <input class="form-control" required  id="city" name="city" formControlName="city">
+      <label for="street">Street</label>
+      <input class="form-control"  required id="street" name="street" formControlName="street">
+      <label for="street_number">Street number</label>
+      <input class="form-control" required  id="street_number" name="street_number" formControlName="street_number">
+      <label for="zipcode">Zipcode</label>
+      <input class="form-control" required  id="zipcode" name="zipcode" formControlName="zipcode">
+    </div>
+  </div>
+  <button class="btn btn-primary" [disabled]="!_PlaceGroup.valid" type="submit">Create place</button>
+</form>

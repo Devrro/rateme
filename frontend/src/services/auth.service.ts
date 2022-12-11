@@ -4,7 +4,6 @@ import {BehaviorSubject, catchError, Observable, tap} from "rxjs";
 import {user_urls} from '../constants/url.constants'
 import {IProfile, IUserModelInfo, IUserModelSignUp} from "../models/IUser";
 import {ITokenPair} from "../models/ITokenPair";
-import {TokenStorageService} from "./token-storage.service";
 
 
 const TOKEN_KEY = 'auth_token'
@@ -25,8 +24,8 @@ export class AuthService {
   ) {
   }
 
-  login(email: string, password: string): Observable<ITokenPair> {
-    return this.http.post<ITokenPair>(`${user_urls.login}`, {email: email, password: password})
+  login(login: string, password: string): Observable<ITokenPair> {
+    return this.http.post<ITokenPair>(`${user_urls.login}`, {login: login, password: password})
   }
 
   register(user: IUserModelSignUp): Observable<IUserModelInfo> {

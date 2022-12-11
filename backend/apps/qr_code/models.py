@@ -1,10 +1,10 @@
 import uuid
 
-from django.db import models
-from .services import save_qr_to
-
 from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
+from django.db import models
+
+from .services import save_qr_to
 
 UserModel = get_user_model()
 

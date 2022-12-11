@@ -9,13 +9,13 @@ export interface IUserModelSignUp {
 export interface IUserModelInfo {
   id: number,
   email: string,
+  login: string,
   profile: IProfile,
 }
 
 export interface IProfile {
   age: string,
   first_name: string,
-  second_name: string,
   last_name: string,
   phone_number: string,
   avatar: string,

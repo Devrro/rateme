@@ -1,10 +1,12 @@
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
-from django.db import models
 from django.core.validators import MaxLengthValidator, MinLengthValidator, RegexValidator
+from django.db import models
+
 from .managers import UserManager
 from .services import upload_to
 
 ukraine_phone_number_validator = r'^(?:\+38)?(?:\(044\)[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|044[ .-]?[0-9]{3}[ .-]?[0-9]{2}[ .-]?[0-9]{2}|044[0-9]{7})$'
+user_name_regex = r'^[a-z0-9]+$'
 
 
 class UserModel(AbstractBaseUser, PermissionsMixin):
@@ -14,8 +16,9 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     login = models.CharField(
         max_length=20,
         validators=[
-            MinLengthValidator(4),
-            MaxLengthValidator(20)
+            MinLengthValidator(5),
+            MaxLengthValidator(20),
+            RegexValidator(user_name_regex)
         ],
         unique=True, blank=False, null=False)
     email = models.EmailField(
@@ -32,6 +35,7 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
 
     USERNAME_FIELD = 'login'
     objects = UserManager()
+
 
 
 class ProfileModel(models.Model):

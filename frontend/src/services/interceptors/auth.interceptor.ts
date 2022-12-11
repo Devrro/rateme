@@ -6,10 +6,7 @@ import {
   HttpInterceptor, HTTP_INTERCEPTORS, HttpErrorResponse
 } from '@angular/common/http';
 import {BehaviorSubject, catchError, filter, Observable, switchMap, take, throwError} from 'rxjs';
-import {TokenStorageService} from "../token-storage.service";
 import {AuthService} from "../auth.service";
-import {ITokenPair} from "../../models/ITokenPair";
-import {logMessages} from "@angular-devkit/build-angular/src/builders/browser-esbuild/esbuild";
 import {Router} from "@angular/router";
 
 const TOKEN_HEADER_TYPE = 'Authorization'
@@ -22,7 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
 
   constructor(
     private authService: AuthService,
-    private router:Router
+    private router: Router
   ) {
   }
 
@@ -33,12 +30,16 @@ export class AuthInterceptor implements HttpInterceptor {
       authReq = this.AddTokenHeader(request, token)
     }
     return next.handle(authReq).pipe(catchError(error => {
-        if (error instanceof HttpErrorResponse && !authReq.url.includes('register') && error.status === 401) {
+        if (
+          (
+            error instanceof HttpErrorResponse
+            && !(authReq.url.includes('signup') || authReq.url.includes('login'))
+            && error.status === 401
+          )
+        ) {
           return this.handle401error(authReq, next)
         }
-        // this.router.navigate(['login']).then()
-        // this.authService.signOut()
-        // return throwError(() => new Error('Tokes is expired'))
+        return throwError(error)
       })
     ) as any
   }
@@ -47,7 +48,7 @@ export class AuthInterceptor implements HttpInterceptor {
     return request.clone({headers: request.headers.set(TOKEN_HEADER_TYPE, 'Bearer ' + token)})
   }
 
-  handle401error(request: HttpRequest<any>, next: HttpHandler):any {
+  handle401error(request: HttpRequest<any>, next: HttpHandler): any {
     if (!this.isRefreshing) {
       this.isRefreshing = true
       const refresh = this.authService.getRefreshToken()
@@ -56,16 +57,21 @@ export class AuthInterceptor implements HttpInterceptor {
           switchMap((tokens) => {
             return next.handle(this.AddTokenHeader(request, tokens.access))
           }),
-          catchError(() => {
+          catchError((err) => {
             this.isRefreshing = false
             this.authService.signOut()
             this.router.navigate(['login']).then()
-            return throwError(()=>new Error('Token is invalid or expired'))
+            return throwError(() => err)
           })
         )
       }
+      catchError(error => {
+        return throwError(error)
+      })
     }
-
+    catchError(error => {
+      return throwError(error)
+    })
   }
 }
 

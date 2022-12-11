@@ -1,11 +1,13 @@
+from re import sub
+
 from django.core.files.images import ImageFile
 from django.db.transaction import atomic
-from rest_framework.serializers import ModelSerializer, SerializerMethodField
-from .models import QrModel, AddressModel, PublicPlaceModel
-from ..users.serializers import UserSerializer
 
+from rest_framework.serializers import ModelSerializer, SerializerMethodField
+
+from ..users.serializers import UserSerializer
+from .models import AddressModel, PublicPlaceModel, QrModel
 from .services import create_qr_url
-from re import sub
 
 basis = 'localhost:8000'
 
@@ -74,6 +76,7 @@ class PublicPlaceSerializer(ModelSerializer):
     class Meta:
         model = PublicPlaceModel
         fields = (
+            'id',
             'name',
             'user',
             'working_time_start',

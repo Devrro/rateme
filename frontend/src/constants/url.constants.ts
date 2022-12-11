@@ -4,7 +4,7 @@ const {URL} = environment;
 
 export const user_urls = {
   register: `${URL}/users/signup`,
-  login: `${URL}/token`,
+  login: `${URL}/login`,
   refresh: `${URL}/token/refresh`
 }
 
@@ -14,3 +14,8 @@ export const boards_url = {
   all_users: `${URL}/users/all`,
 }
 
+export const PublicPlaceUrl = {
+  getMyPlaces: `${URL}/places/my_places`,
+  createPlace: `${URL}/places/create_place`,
+  deletePlace: `${URL}/places/delete_place`,
+}
