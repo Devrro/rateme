@@ -46,7 +46,9 @@ INSTALLED_APPS = [
     'core',
     'apps.users',
     'apps.qr_code',
-    'apps.reviews'
+    'apps.telegrambot',
+    'apps.reviews',
+
 ]
 
 MIDDLEWARE = [

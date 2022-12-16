@@ -2,7 +2,7 @@ from core.permissions.place_owner_permission import PlaceOwnerPermission
 
 from django.contrib.auth import get_user_model
 
-from rest_framework import status, filters
+from rest_framework import filters, status
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
@@ -15,8 +15,9 @@ UserModel: UserModelTyping = get_user_model()
 
 
 class ListAllQrCodesView(ListAPIView):
-    queryset = PublicPlaceModel.objects.all().order_by('-created_at')
+    queryset = PublicPlaceModel.objects.all()
     serializer_class = QrModelSerializer
+    filter_backends = [filters.OrderingFilter]
     permission_classes = (AllowAny,)
     ordering_fields = '__all__'
     ordering = ('-created_at',)
@@ -37,9 +38,10 @@ class ListAuthUserPlacesView(ListAPIView):
 
 
 class ListPlacesByUserId(ListAPIView):
-    queryset = PublicPlaceModel.objects.all().order_by('-created_at')
+    queryset = PublicPlaceModel.objects.all()
     serializer_class = GetPublicPlacesSerializer
     permission_classes = (PlaceOwnerPermission or IsAdminUser,)
+    filter_backends = [filters.OrderingFilter]
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
@@ -50,8 +52,9 @@ class ListPlacesByUserId(ListAPIView):
 
 
 class ListAllPlacesView(ListAPIView):
-    queryset = PublicPlaceModel.objects.all().order_by('-created_at')
+    queryset = PublicPlaceModel.objects.all()
     serializer_class = GetPublicPlacesSerializer
+    filter_backends = [filters.OrderingFilter]
     permission_classes = (AllowAny,)
     ordering_fields = '__all__'
     ordering = ('-created_at',)

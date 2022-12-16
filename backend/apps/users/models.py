@@ -37,7 +37,6 @@ class UserModel(AbstractBaseUser, PermissionsMixin):
     objects = UserManager()
 
 
-
 class ProfileModel(models.Model):
     class Meta:
         db_table = 'profile'

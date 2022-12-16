@@ -19,3 +19,10 @@ export const PublicPlaceUrl = {
   createPlace: `${URL}/places/create_place`,
   deletePlace: `${URL}/places/delete_place`,
 }
+
+
+export const ReviewPlaceUrl = {
+  getAllPlaceReviews: `${URL}/review/get_reviews`,
+  getAvgScorePlace: `${URL}/review/get_avg_place_score`,
+  sendReview: `${URL}/review/place_review`
+}
