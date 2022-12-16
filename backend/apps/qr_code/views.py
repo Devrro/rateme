@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from ..users.models import UserModel as UserModelTyping
-from .models import AddressModel, PublicPlaceModel, QrModel
+from .models import AddressModel, PublicPlaceModel
 from .serializers import AddressSerializer, GetPublicPlacesSerializer, PublicPlaceSerializer, QrModelSerializer
 
 UserModel: UserModelTyping = get_user_model()
@@ -22,6 +22,10 @@ class ListAllQrCodesView(ListAPIView):
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
+    """
+    List all qr generated on website. For whatever reason you need it...
+    """
+
 
 class ListAuthUserPlacesView(ListAPIView):
     queryset = PublicPlaceModel.objects.all()
@@ -30,6 +34,10 @@ class ListAuthUserPlacesView(ListAPIView):
     filter_backends = [filters.OrderingFilter]
     ordering_fields = '__all__'
     ordering = ('-created_at',)
+
+    """
+        List all places of logged user including their QR codes and addresses
+    """
 
     def get_queryset(self):
         qs = self.queryset.filter(user=self.request.user)
@@ -44,6 +52,10 @@ class ListPlacesByUserId(ListAPIView):
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
+    """
+        List all places of user by user id including their QR codes and addresses
+    """
+
     def get_queryset(self):
         qs = self.queryset.filter(user_id=self.kwargs.get('pk', None))
         return qs
@@ -57,6 +69,10 @@ class ListAllPlacesView(ListAPIView):
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
+    """
+        List all places with addresses and qr codes
+    """
+
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({"request": self.request})
@@ -67,6 +83,10 @@ class CreatePublicPlaceView(CreateAPIView):
     queryset = PublicPlaceModel.objects.all()
     serializer_class = PublicPlaceSerializer
     permission_classes = (IsAuthenticated,)
+
+    """
+    Create public place by logged user. When public place is created a qr code generates too.
+    """
 
     def post(self, request, *args, **kwargs):
         data = self.request.data
@@ -91,6 +111,10 @@ class UpdatePublicPlaceView(UpdateAPIView):
     serializer_class = GetPublicPlacesSerializer
     permission_classes = (PlaceOwnerPermission,)
 
+    """
+    Update public place view. Changes only some non-sensitive data.
+    """
+
     def get_queryset(self):
         qs = self.queryset.filter(pk=self.kwargs.get('pk', None))
         return qs
@@ -100,6 +124,10 @@ class UpdatePublicPlaceAddressView(UpdateAPIView):
     queryset = AddressModel.objects.all()
     serializer_class = AddressSerializer
     permission_classes = (AllowAny,)
+
+    """
+        Update public place address view. Changes only some non-sensitive data.
+    """
 
     def get_queryset(self):
         qs = self.queryset.filter(public_place_id__exact=self.kwargs.get('pk', None))
@@ -134,6 +162,10 @@ class DeletePublicPlaceView(DestroyAPIView):
     queryset = PublicPlaceModel.objects.all()
     serializer_class = GetPublicPlacesSerializer
     permission_classes = (PlaceOwnerPermission,)
+
+    """
+    Delete place by its ID. You must be owner to delete a place. 
+    """
 
     def get_queryset(self):
         qs = self.queryset.filter(pk=self.kwargs.get('pk', None))

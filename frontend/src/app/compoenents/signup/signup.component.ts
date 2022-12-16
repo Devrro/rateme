@@ -16,7 +16,8 @@ export class SignupComponent implements OnInit {
 
   registerForm: FormGroup = new FormGroup(
     {
-      email: new FormControl('118@gmail.com'),
+      email: new FormControl('11d@gmail.com'),
+      login: new FormControl('abrams1'),
       password: new FormControl('111111'),
       profile: new FormGroup(
         {
@@ -24,6 +25,7 @@ export class SignupComponent implements OnInit {
           second_name: new FormControl('Terletskiy'),
           last_name: new FormControl('andriy'),
           age: new FormControl('18'),
+          birth_date: new FormControl('1977-06-12'),
         }
       ),
     }
