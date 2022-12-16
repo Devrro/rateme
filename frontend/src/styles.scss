@@ -1,0 +1,43 @@
+/* You can add global styles to this file, and also import other style files */
+
+/* Importing Bootstrap SCSS file. */
+@import 'bootstrap/scss/bootstrap';
+
+
+//@import "bootstrap-icons/font/bootstrap-icons.scss";
+//@import "node_modules/bootstrap-icons/font/bootstrap-icons.scss";
+
+@import '@fortawesome/fontawesome-free/scss/fontawesome.scss';
+@import '@fortawesome/fontawesome-free/scss/solid.scss';
+@import '@fortawesome/fontawesome-free/scss/regular.scss';
+@import '@fortawesome/fontawesome-free/scss/brands.scss';
+@import 'mdb-angular-ui-kit/assets/scss/mdb.scss';
+
+
+
+:root{
+  --azure_x11_web_color:#EFFBF9;
+  --light_sea_green:#00A6A6;
+  --columbia_blue:#BBDEF0;
+  --yellow_munsell:#EFCA08;
+  --orange_web:#F49F0A;
+  --tangerine:#F08700;
+  --raisin_black:#332E3C;
+
+}
+//#EFFBF9
+html {
+  overflow-y: scroll;
+}
+body{
+  background-color: var(--azure_x11_web_color);
+}
+
+.azure_light_bg{
+  background-color: var(--azure_x11_web_color);
+}
+
+
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

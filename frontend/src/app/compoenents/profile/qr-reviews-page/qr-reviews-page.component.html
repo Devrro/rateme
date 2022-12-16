@@ -1,0 +1,43 @@
+<div *ngIf="!err" class="modal-header">
+  <h4 class="modal-title">Average: {{avg_score}}</h4>
+  <mat-paginator
+    class="border-5"
+    style="overflow: hidden"
+    aria-label="paginate_reviews"
+    (page)="handlePageEvent($event)"
+    [length]="_pageCount"
+    [pageSizeOptions]="[5,10,25]"
+    [pageSize]="10"
+  >
+  </mat-paginator>
+</div>
+<div class="modal-body">
+  <div *ngIf="!err">
+    <div *ngFor="let review of reviews_list">
+      <div class="card mb-2 mt-2">
+        <div class="card-body">
+          <p *ngIf="review.customer_name">
+            Customer name: {{review.customer_name}}
+          </p>
+          <p *ngIf="review.place_score">
+            Customer rate: {{review.place_score}}
+          </p>
+          <p *ngIf="review.customer_phone_number">
+            Phone number: {{review.customer_phone_number}}
+          </p>
+          <p *ngIf="review.customer_review">
+            {{review.customer_review}}
+          </p>
+          <p>{{review.created_at | date:'MMM d, y, HH:mm'}}</p>
+          <small>Review id : {{review.id}}</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div *ngIf="err">
+    <p class="card-text">{{err}}</p>
+  </div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-outline-dark" (click)="activeModal.close('Close click')">Close</button>
+</div>
