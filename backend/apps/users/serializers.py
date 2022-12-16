@@ -2,12 +2,12 @@ from typing import Type
 
 from django.contrib.auth import get_user_model
 from django.db.transaction import atomic
-from rest_framework.fields import SerializerMethodField
 
+from rest_framework.fields import SerializerMethodField
 from rest_framework.serializers import ModelSerializer
 
-from .models import ProfileModel
 from ..telegrambot.models import TelegramTokenKey
+from .models import ProfileModel
 
 UserModel = get_user_model()
 

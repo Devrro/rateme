@@ -8,7 +8,7 @@ from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
 
 from ..users.models import UserModel as UserModelTyping
-from .models import AddressModel, PublicPlaceModel, QrModel
+from .models import AddressModel, PublicPlaceModel
 from .serializers import AddressSerializer, GetPublicPlacesSerializer, PublicPlaceSerializer, QrModelSerializer
 
 UserModel: UserModelTyping = get_user_model()
@@ -25,6 +25,7 @@ class ListAllQrCodesView(ListAPIView):
     """
     List all qr generated on website. For whatever reason you need it...
     """
+
 
 class ListAuthUserPlacesView(ListAPIView):
     queryset = PublicPlaceModel.objects.all()
@@ -55,7 +56,6 @@ class ListPlacesByUserId(ListAPIView):
         List all places of user by user id including their QR codes and addresses
     """
 
-
     def get_queryset(self):
         qs = self.queryset.filter(user_id=self.kwargs.get('pk', None))
         return qs
@@ -72,7 +72,6 @@ class ListAllPlacesView(ListAPIView):
     """
         List all places with addresses and qr codes
     """
-
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
@@ -113,7 +112,7 @@ class UpdatePublicPlaceView(UpdateAPIView):
     permission_classes = (PlaceOwnerPermission,)
 
     """
-    Update public place view. Changes only some not sensitive data.
+    Update public place view. Changes only some non-sensitive data.
     """
 
     def get_queryset(self):
@@ -127,7 +126,7 @@ class UpdatePublicPlaceAddressView(UpdateAPIView):
     permission_classes = (AllowAny,)
 
     """
-        Update public place address view. Changes only some not sensitive data.
+        Update public place address view. Changes only some non-sensitive data.
     """
 
     def get_queryset(self):
