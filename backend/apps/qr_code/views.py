@@ -31,7 +31,6 @@ class ListAuthUserPlacesView(ListAPIView):
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
-
     def get_queryset(self):
         qs = self.queryset.filter(user=self.request.user)
         return qs
@@ -45,7 +44,6 @@ class ListPlacesByUserId(ListAPIView):
     ordering_fields = '__all__'
     ordering = ('-created_at',)
 
-
     def get_queryset(self):
         qs = self.queryset.filter(user_id=self.kwargs.get('pk', None))
         return qs
@@ -58,7 +56,6 @@ class ListAllPlacesView(ListAPIView):
     permission_classes = (AllowAny,)
     ordering_fields = '__all__'
     ordering = ('-created_at',)
-
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

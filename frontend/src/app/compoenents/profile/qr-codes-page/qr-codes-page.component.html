@@ -1,0 +1,90 @@
+<div class="card mb-5">
+  <div class="card-body">
+    <div class="col">
+      <div class="row">
+        <div class="col">
+          <h4>Your places</h4>
+          <hr>
+          <button class="btn btn-primary" (click)="_createQrMode()">Create place</button>
+          <hr>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="row d-flex justify-content-center">
+            <div *ngIf="_createQr" class="col-6">
+              <app-qr-code-form (addQrEvent)=_addQr($event)></app-qr-code-form>
+            </div>
+          </div>
+          <hr *ngIf="_createQr">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col d-flex gap-2 flex-column">
+          <div class="card flex-row px-3 py-3 azure_light_bg no_shadow" *ngFor="let qr of _qrs">
+            <div class="card-img hover-shadow host_picture overflow-hidden"  style="width: 200px;height: 200px; border-radius: 25px;">
+              <div (click)="_saveImg(qr.qr_data.qr_code)">
+                <img class="" style="width: 200px;" [src]="qr.qr_data.qr_code"
+                     [alt]="qr.qr_data.qr_url">
+                <div  class="save_me text-light" style="width: 200px;height: 40px;">
+                  <p>Click to save </p>
+                </div>
+              </div>
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">
+                {{qr.name}}
+              </h5>
+              {{qr.created_at | date:'MMM d, y, HH:mm'}}
+              <div class="card-text">
+                <div>{{qr.address.country}} {{qr.address.city}} {{qr.address.street}} {{qr.address.street_number}}</div>
+                <div class="text-capitalize">ID : {{qr.id}}</div>
+              </div>
+            </div>
+            <div class="d-flex flex-column justify-content-between">
+              <button class="btn btn-primary">Get info</button>
+              <button class="btn btn-secondary" (click)="_getReviewsModalOpenXl(qr.id)">Reviews</button>
+<!--              <button class="btn btn-danger">#</button>-->
+<!--              <button (click)="_deletePlace(qr.id)" class="btn btn-danger">delete</button>-->
+              <button class="btn btn-sm btn-danger" (click)="_deletePlaceModal(content, qr.id)">Delete place</button>
+            </div>
+            <!--            <div></div>-->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h4 class="modal-title" id="modal-basic-title">Delete place</h4>
+		<button type="button" class="btn-close" aria-label="Close" (click)="modal.dismiss('Cross click')"></button>
+	</div>
+	<div class="modal-body">
+    <div class="">{{_msg}}</div>
+<!--		<form>-->
+<!--			<div class="mb-3">-->
+<!--				<label for="dateOfBirth">Date of birth</label>-->
+<!--				<div class="input-group">-->
+<!--					<input-->
+<!--						id="dateOfBirth"-->
+<!--						class="form-control"-->
+<!--						placeholder="yyyy-mm-dd"-->
+<!--						name="dp"-->
+<!--						ngbDatepicker-->
+<!--						#dp="ngbDatepicker"-->
+<!--					/>-->
+<!--					<button class="btn btn-outline-secondary bi bi-calendar3" (click)="dp.toggle()" type="button"></button>-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</form>-->
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-danger" (click)="_deletePlace(modal)">Delete</button>
+		<button type="button" class="btn btn-primary" (click)="modal.close()">Close</button>
+	</div>
+</ng-template>
+
+

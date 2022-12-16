@@ -1,0 +1,136 @@
+<div class="card">
+  <div class="card-body">
+    <div class="row">
+      <div class="col">
+        <h4>Your Profile</h4>
+        <hr>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+          <div class="form-group row mb-2">
+            <div class="col">
+            <p class="col-4 col-form-label"><span class="fw-bold">Email - </span>{{currentUser.email}}</p>
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <div class="col">
+            <p class="col-4 col-form-label"><span class="fw-bold">Login - </span>{{currentUser.login}}</p>
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label for="name" class="col-4 col-form-label">{{currentUser.profile.first_name}}</label>
+            <div class="col-8">
+              <input
+                id="name"
+                name="name"
+                placeholder="First Name"
+                class="form-control here"
+                formControlName="first_name"
+                type="text">
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label for="lastname" class="col-4 col-form-label">{{currentUser.profile.last_name}}</label>
+            <div class="col-8">
+              <input
+                id="lastname"
+                name="lastname"
+                placeholder="Last Name"
+                class="form-control here"
+                type="text"
+                formControlName="last_name"
+              >
+            </div>
+          </div>
+          <!--                              <div class="form-group row">-->
+          <!--                                <label for="select" class="col-4 col-form-label">Display Name public as</label>-->
+          <!--                                <div class="col-8">-->
+          <!--                                  <select id="select" name="select" class="custom-select">-->
+          <!--                                    <option value="admin">Admin</option>-->
+          <!--                                  </select>-->
+          <!--                                </div>-->
+          <!--                              </div>-->
+          <!--          <div class="form-group row mb-2">-->
+          <!--            <label for="age" class="col-4 col-form-label">Age: </label>-->
+          <!--            <div class="col-8">-->
+          <!--              <input-->
+          <!--                id="age"-->
+          <!--                name="age"-->
+          <!--                placeholder="Age"-->
+          <!--                class="form-control here"-->
+          <!--                formControlName="age"-->
+          <!--                type="text">-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div class="form-group row mb-2">
+            <label for="phone_number" class="col-4 col-form-label">Phone
+              number: {{currentUser.profile.phone_number}}</label>
+            <div class="col-8">
+              <input
+                id="phone_number"
+                name="name"
+                placeholder="Phone number"
+                class="form-control here"
+                formControlName="phone_number"
+                type="text">
+            </div>
+          </div>
+
+          <!--          <div class="form-group row mb-2">-->
+
+          <!--            <div class="col-4 mb-2">-->
+          <!--              <label for="about_user" class="me-2 col-form-label">About</label>-->
+          <!--              <button type="button" (click)="_editAbout=!_editAbout" class="btn btn-secondary"> EDIT</button>-->
+          <!--            </div>-->
+          <!--            <div class="col-8">-->
+          <!--              <div class="row" *ngIf="!_editAbout">-->
+          <!--                <p class="form-control col w-100" style="height: 200px; background-color: #f4f4f4"-->
+          <!--                   *ngIf="currentUser.profile.about_user">{{currentUser.profile.about_user}}-->
+          <!--                </p>-->
+          <!--              </div>-->
+
+          <!--              <div class="row position-relative" *ngIf="_editAbout">-->
+          <!--                  <textarea-->
+          <!--                    id="about_user"-->
+          <!--                    name="about_user"-->
+          <!--                    class="form-control col w-100 text-field"-->
+          <!--                    style="height: 200px"-->
+          <!--                    formControlName="about_user"-->
+
+          <!--                    [placeholder]="_placeholderInfo"-->
+          <!--                    (ngModelChange)="charactersonChange($event)"-->
+          <!--                  >-->
+          <!--                  </textarea>-->
+          <!--                  <span *ngIf="_minChars>0" class="text-field-placeholder">Minimum characters {{_minChars}}</span>-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
+
+          <!--    This action needs to be separated to another form      -->
+          <!--          <div class="form-group row mb-2">-->
+          <!--            <label for="newpass" class="col-4 col-form-label">New Password</label>-->
+          <!--            <div class="col-8">-->
+          <!--              <input-->
+          <!--                id="newpass"-->
+          <!--                name="newpass"-->
+          <!--                placeholder="New Password"-->
+          <!--                class="form-control here"-->
+          <!--                formControlName="password"-->
+          <!--                type="text"-->
+          <!--              >-->
+          <!--            </div>-->
+          <!--          </div>-->
+          <div class="form-group row">
+            <div class="col-12">
+              <button name="submit" type="submit" [disabled]="!userForm.valid" class="btn btn-primary">Update My
+                Profile
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
