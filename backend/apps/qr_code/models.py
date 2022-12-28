@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from django.db import models
 
-from .services import save_qr_to
+from .services import save_qr_to,save_place_pic_to
 
 UserModel = get_user_model()
 
@@ -23,6 +23,7 @@ class PublicPlaceModel(models.Model):
     id = models.UUIDField(primary_key=True, default=uuid.uuid1)
     user = models.ForeignKey(UserModel, on_delete=models.CASCADE, related_name='users')
     name = models.CharField(max_length=255, blank=False, null=False)
+    place_picture = models.ImageField(upload_to=save_place_pic_to,blank=True)
     working_time_start = models.CharField(
         validators=[RegexValidator("([01]?[0-9]|2[0-3]):[0-5][0-9]")],
         max_length=5,
@@ -33,7 +34,6 @@ class PublicPlaceModel(models.Model):
         max_length=5,
         blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
-
 
 class AddressModel(models.Model):
     class Meta:

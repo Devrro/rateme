@@ -18,6 +18,12 @@ class AddressSerializer(ModelSerializer):
         exclude = ('public_place',)
 
 
+class PlacePictureSerializer(ModelSerializer):
+    class Meta:
+        model = PublicPlaceModel
+        fields = ('place_picture',)
+
+
 class QrModelSerializer(ModelSerializer):
     qr_code = SerializerMethodField()
 
@@ -41,6 +47,7 @@ class GetPublicPlacesSerializer(ModelSerializer):
     address = SerializerMethodField()
     # qr_code = QrModelSerializer(source='public_place', read_only=True)
     qr_data = SerializerMethodField(read_only=True)
+    place_picture = PlacePictureSerializer
 
     class Meta:
         model = PublicPlaceModel
@@ -49,6 +56,7 @@ class GetPublicPlacesSerializer(ModelSerializer):
             'id',
             'user',
             'name',
+            'place_picture',
             'working_time_start',
             'working_time_end',
             'created_at',
@@ -72,6 +80,7 @@ class PublicPlaceSerializer(ModelSerializer):
     qr_code = QrModelSerializer(read_only=True)
     address = AddressSerializer()
     user = UserSerializer(source='user_id')
+    place_picture = PlacePictureSerializer
 
     class Meta:
         model = PublicPlaceModel
@@ -84,9 +93,11 @@ class PublicPlaceSerializer(ModelSerializer):
             'created_at',
             'address',
             'qr_code',
+            'place_picture',
 
         )
         read_only_fields = (
+            'place_picture',
             'created_at',
             'qr_code',
         )

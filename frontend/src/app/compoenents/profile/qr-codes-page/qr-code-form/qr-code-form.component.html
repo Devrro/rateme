@@ -7,12 +7,12 @@
     <div formGroupName="address" class="row mb-2">
       <label for="country">Country</label>
 <!--      <input class="form-control" required id="country" name="name" formControlName="country">-->
-      <div class="form-control">
-        <mat-form-field id="country" class="w-100">
-          <mat-select formControlName="country">
-            <mat-option class="dropdown-item bg-white" [value]="'UA'">Ukraine</mat-option>
+      <div class="form-control" style="color: black">
+          <mat-select  id="country" panelClass="mat-selection-panel" disableOptionCentering placeholder="Country" formControlName="country">
+            <mat-option style="width:2000px; background-color: white; color: black; font-size: 10px;" [value]="'UA'">
+              <span style="color: black !important;">Ukraine</span>
+            </mat-option>
           </mat-select>
-        </mat-form-field>
       </div>
       <label for="city">City</label>
       <input class="form-control" required  id="city" name="city" formControlName="city">

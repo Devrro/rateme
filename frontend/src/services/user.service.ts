@@ -29,4 +29,8 @@ export class UserService {
     return this.http.patch<IProfile>(`${boards_url.profile}`, {...profileInfo}, {})
   }
 
+  addAvatarToUser(formData:FormData):Observable<{ avatar: string }>{
+    return this.http.patch<{avatar:string}>(`${boards_url.avatar}`,formData)
+  }
+
 }

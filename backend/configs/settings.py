@@ -41,13 +41,13 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'django_filters',
 
-
     # Apps
     'core',
     'apps.users',
     'apps.qr_code',
     'apps.telegrambot',
     'apps.reviews',
+    'apps.user_auth'
 
 ]
 
@@ -66,7 +66,9 @@ ROOT_URLCONF = 'configs.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [
+            os.path.join(BASE_DIR, 'templates')
+        ],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

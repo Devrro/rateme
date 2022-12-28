@@ -1,10 +1,19 @@
 <div class="card">
   <div class="card-body">
     <div class="row">
-      <div class="col">
+      <div class="col d-flex justify-content-between align-items-center">
         <h4>Your Profile</h4>
-        <hr>
+        <div>
+          <div *ngIf="currentUser.profile.avatar else profile_pic_placeholder" style="width: 200px;height: 200px">
+            <img src="{{currentUser.profile.avatar}}" alt="user photo">
+          </div>
+          <form [formGroup]="usersAvatarForm">
+            <label for="profile_picture">Upload to</label>
+            <input formControlName="avatar" (change)="_uploadPicture($event)" name="profile_picture" id="profile_picture" type="file" accept=".jpg,.png,.svg">
+          </form>
+        </div>
       </div>
+        <hr>
     </div>
     <div class="row">
       <div class="col-md-12">
@@ -41,6 +50,19 @@
                 class="form-control here"
                 type="text"
                 formControlName="last_name"
+              >
+            </div>
+          </div>
+          <div class="form-group row mb-2">
+            <label for="lastname" class="col-4 col-form-label">Birth date: {{currentUser.profile.birth_date }} </label>
+            <div class="col-8">
+              <input
+                id="birth_date"
+                name="birth_date"
+                placeholder="Birth date"
+                class="form-control here"
+                type="text"
+                formControlName="birth_date"
               >
             </div>
           </div>
@@ -134,3 +156,8 @@
     </div>
   </div>
 </div>
+
+<ng-template #profile_pic_placeholder>
+   <div class="d-flex align-items-center justify-content-center mb-3" style="width: 150px;height: 150px;border-radius: 50%;overflow: hidden">
+     <img style="max-width: 200px;max-height: 200px" src="./assets/img/profile_place_holder.jpg" alt="user photo placeholder"></div>
+</ng-template>

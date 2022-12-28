@@ -1,13 +1,13 @@
 from django.contrib.auth import get_user_model
 
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, ListAPIView, UpdateAPIView, get_object_or_404
+from rest_framework.generics import GenericAPIView, ListAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAuthenticated
 from rest_framework.response import Response
 
 from .models import ProfileModel
 from .models import UserModel as UserModelPrototype
-from .serializers import AvatarSerializer, ProfileSerializer, UserSerializer
+from .serializers import AvatarSerializer, ProfileSerializer, UserSerializer, GetAvatarSerializer
 
 UserModel: UserModelPrototype = get_user_model()
 
@@ -18,7 +18,7 @@ class UserListView(ListAPIView):
     permission_classes = (AllowAny,)
 
 
-class UserCreateView(CreateAPIView):
+class UserCreateView(GenericAPIView):
     """
         Create user view
         post:
@@ -34,21 +34,42 @@ class UserCreateView(CreateAPIView):
 
     def post(self, request, *args, **kwargs):
         data = self.request.data
-        login = data.get('login', None).lower()
+        login = data.get('login', '').lower()
+
+        if not login:
+            return Response({'detail': 'You must provide login'}, status=status.HTTP_400_BAD_REQUEST)
+
         data['login'] = login
         serializer = self.serializer_class(data=data)
         if serializer.is_valid():
             serializer.save()
-            return Response({'detail':'You are signed up'}, status=status.HTTP_201_CREATED)
+            return Response({'detail': 'You are signed up'}, status=status.HTTP_201_CREATED)
         else:
-            return Response({'detail':serializer.errors},status=status.HTTP_403_FORBIDDEN)
+            return Response({'detail': serializer.errors}, status=status.HTTP_403_FORBIDDEN)
+
 
 class UserAddAvatarView(UpdateAPIView):
     serializer_class = AvatarSerializer
     permission_classes = (IsAuthenticated,)
 
+
     def get_object(self):
         return self.request.user.profile
+
+    def patch(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        get_avatar_serializer = GetAvatarSerializer(instance,many=False,context=self.get_serializer_context())
+
+        return Response(data=get_avatar_serializer.data)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context
+
 
 
 class UserListSelfView(ListAPIView):

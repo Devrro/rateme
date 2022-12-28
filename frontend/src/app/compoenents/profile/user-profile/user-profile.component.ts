@@ -5,6 +5,7 @@ import {UserService} from "../../../../services/user.service";
 import {AuthService} from "../../../../services/auth.service";
 import {regExList} from "../../../../constants/regEx.constants";
 
+
 @Component({
   selector: 'app-user-profile',
   templateUrl: './user-profile.component.html',
@@ -15,6 +16,7 @@ export class UserProfileComponent implements OnInit {
   @Input()
   currentUser: IUserModelInfo;
   userForm: FormGroup;
+  usersAvatarForm: FormGroup;
 
   _editAbout: boolean = false
   _disableOnSubmit: boolean = true
@@ -31,10 +33,12 @@ export class UserProfileComponent implements OnInit {
     const user = this.authService.getUser()
     if (user) {
       this.currentUser = user
+      console.log(user)
     } else {
       this.getUser()
     }
     this._createUserForm()
+    this._createAvatarForm()
   }
 
   getUser(): void {
@@ -52,7 +56,7 @@ export class UserProfileComponent implements OnInit {
 
   _createUserForm(): void {
     this.userForm = new FormGroup({
-      age: new FormControl(``, [Validators.min(1), Validators.max(130)]),
+      birth_date: new FormControl(``, [Validators.min(1), Validators.max(130)]),
       phone_number: new FormControl(``, [Validators.pattern(regExList.ukrainian_phone_num)]),
       first_name: new FormControl(``, [
         Validators.maxLength(25), Validators.minLength(2)
@@ -62,6 +66,15 @@ export class UserProfileComponent implements OnInit {
       ]),
       about_user: new FormControl(``, [Validators.minLength(10), Validators.maxLength(5000)]),
     })
+  }
+
+  private _createAvatarForm() {
+    this.usersAvatarForm = new FormGroup(
+      {
+        avatar: new FormControl(null, [])
+      }
+    )
+
   }
 
   onSubmit() {
@@ -85,6 +98,23 @@ export class UserProfileComponent implements OnInit {
           console.warn(err)
         }
       })
+    }
+  }
+
+  _uploadPicture(e: any) {
+    const file: File = e.target.files[0];
+
+    if (file) {
+      let data = new FormData()
+      data.append('avatar', file)
+      this.userService.addAvatarToUser(data).subscribe(
+        {
+          next: value => {
+            this.currentUser.profile.avatar = value.avatar
+            console.log(value)
+          }
+        }
+      )
     }
   }
 

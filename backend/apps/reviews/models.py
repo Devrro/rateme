@@ -19,5 +19,5 @@ class ReviewModel(models.Model):
     customer_name = models.CharField(max_length=64, blank=True)
     customer_phone_number = models.CharField(max_length=16, validators=[RegexValidator(ukraine_phone_number_regex)],
                                              blank=True)
-    place = models.ForeignKey(PublicPlaceModel, on_delete=models.DO_NOTHING, related_name='public_place')
+    place = models.ForeignKey(PublicPlaceModel, on_delete=models.CASCADE, related_name='public_place')
     created_at = models.DateTimeField(auto_now_add=True)

@@ -26,7 +26,8 @@ urlpatterns = [
     path('places', include('apps.qr_code.urls')),
     path('review', include('apps.reviews.urls')),
     path('login', TokenObtainPairView.as_view(), name='obtain_token_pair'),
-    path('token/refresh', TokenRefreshView.as_view(), name='refresh_token_pair')
+    path('token/refresh', TokenRefreshView.as_view(), name='refresh_token_pair'),
+    path('auth', include('apps.user_auth.urls'), name='auth_options')
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

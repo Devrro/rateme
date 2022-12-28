@@ -14,7 +14,7 @@ export interface IUserModelInfo {
 }
 
 export interface IProfile {
-  age: string,
+  birth_date: string,
   first_name: string,
   last_name: string,
   phone_number: string,

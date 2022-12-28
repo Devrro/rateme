@@ -11,6 +11,7 @@ export const user_urls = {
 export const boards_url = {
   me: `${URL}/users/me`,
   profile: `${URL}/users/profile`,
+  avatar: `${URL}/users/avatar`,
   all_users: `${URL}/users/all`,
 }
 

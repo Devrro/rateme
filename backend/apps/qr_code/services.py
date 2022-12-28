@@ -1,7 +1,14 @@
 import os.path
+from uuid import uuid1
 from io import BytesIO
 
 import qrcode as q
+
+
+def save_place_pic_to(instance, file: str):
+    ext = file.split('.')[-1]
+
+    return os.path.join(f'{instance.public_place.id}', 'place_picture', f"{uuid1()}.{ext}")
 
 
 def save_qr_to(instance, file: str):
