@@ -10,8 +10,6 @@ import {IUserModelInfo} from "../../../models/IUser";
 })
 export class ProfileComponent implements OnInit {
 
-  pageProfile: boolean = true
-  _userIsDoc: boolean = false
   currentUser: IUserModelInfo;
 
   constructor(

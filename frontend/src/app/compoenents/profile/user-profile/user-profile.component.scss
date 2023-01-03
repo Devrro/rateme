@@ -1,0 +1,35 @@
+.overflow_hide {
+  overflow: hidden;
+}
+
+.picture_center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.save_me {
+  background-color: rgba(0, 0, 0, 0.5);
+  transition: all 0.25s ease-in;
+  text-transform: uppercase;
+  font-weight: bold;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  opacity: 0;
+}
+
+.host_picture {
+  cursor: pointer;
+  //transform: translate(50%, 50%);
+  //transition: transform 0.25s ease-out;
+}
+
+//
+.host_picture:hover .save_me {
+  opacity: 100%;
+  transition: opacity 0.25s ease-in;
+}

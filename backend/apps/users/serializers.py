@@ -33,17 +33,27 @@ class GetAvatarSerializer(ModelSerializer):
     def get_avatar(self, obj):
         req = self.context.get('request')
         # profile_instance = ProfileModel.objects.get()
-        avatar_url = req.build_absolute_uri(obj.url)
+        if isinstance(obj,dict):
+            avatar_url = req.build_absolute_uri(obj.get('url',''))
+        else:
+            avatar_url = req.build_absolute_uri(obj.url)
         avatar_url = sub(pattern=r'/media/', repl=r'/api/media/', string=f'{avatar_url}', )
+        print(avatar_url)
         return avatar_url
 
 class ProfileSerializer(ModelSerializer):
-    avatar = GetAvatarSerializer(read_only=True)
+    avatar = SerializerMethodField(read_only=True)
 
     class Meta:
         model = ProfileModel
         exclude = ('user', 'id')
 
+    def get_avatar(self,obj):
+        serializer = GetAvatarSerializer(instance=obj.avatar,many=False,context=self.context)
+        if serializer.data:
+            return serializer.data.get('avatar', None)
+        else:
+            return None
 
 
 class TelegramTokenSerializer(ModelSerializer):

@@ -52,24 +52,23 @@ class UserAddAvatarView(UpdateAPIView):
     serializer_class = AvatarSerializer
     permission_classes = (IsAuthenticated,)
 
-
     def get_object(self):
         return self.request.user.profile
 
     def patch(self, request, *args, **kwargs):
+        context = self.get_serializer_context()
         instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer = self.serializer_class(instance, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        get_avatar_serializer = GetAvatarSerializer(instance,many=False,context=self.get_serializer_context())
-
+        obj = {'url': serializer.data.get('avatar', '')}
+        get_avatar_serializer = GetAvatarSerializer(obj, many=False, context=context)
         return Response(data=get_avatar_serializer.data)
 
     def get_serializer_context(self):
         context = super().get_serializer_context()
         context.update({"request": self.request})
         return context
-
 
 
 class UserListSelfView(ListAPIView):
@@ -125,6 +124,7 @@ class UpdateMyProfileView(UpdateAPIView):
         Probably should rework this soon
     """
 
+
     def patch(self, request, *args, **kwargs):
 
         if self.request.data == {}:
@@ -135,10 +135,15 @@ class UpdateMyProfileView(UpdateAPIView):
 
         data = {k: v for k, v in request_dict.items() if v is not None}
 
-        serializer = self.serializer_class(user_obj, data, partial=True)
+        serializer = self.serializer_class(user_obj, data, partial=True,context=self.get_serializer_context())
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def get_serializer_context(self):
+        context = super().get_serializer_context()
+        context.update({"request": self.request})
+        return context

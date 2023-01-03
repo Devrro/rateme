@@ -77,6 +77,14 @@ export class AuthService {
       this.saveUser(user)
     }
   }
+  public updateUserAvatar(avatar:string): void {
+    const user = this.getUser()
+    if (user) {
+      user.profile.avatar = avatar
+      console.log(avatar)
+      this.saveUser(user)
+    }
+  }
 
   public getUser(): IUserModelInfo | void {
     const user = window.sessionStorage.getItem(USER_KEY)

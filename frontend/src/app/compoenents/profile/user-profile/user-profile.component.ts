@@ -15,6 +15,7 @@ export class UserProfileComponent implements OnInit {
 
   @Input()
   currentUser: IUserModelInfo;
+
   userForm: FormGroup;
   usersAvatarForm: FormGroup;
 
@@ -22,6 +23,7 @@ export class UserProfileComponent implements OnInit {
   _disableOnSubmit: boolean = true
   _placeholderInfo: string = 'Minimum characters input'
   _minChars: number = 10
+  avatar_error: string;
 
   constructor(
     private userService: UserService,
@@ -104,14 +106,18 @@ export class UserProfileComponent implements OnInit {
   _uploadPicture(e: any) {
     const file: File = e.target.files[0];
 
+
     if (file) {
+      if (file.size >= 1000 * 1024) {
+      return
+      }
       let data = new FormData()
       data.append('avatar', file)
       this.userService.addAvatarToUser(data).subscribe(
         {
           next: value => {
             this.currentUser.profile.avatar = value.avatar
-            console.log(value)
+            this.authService.updateUserAvatar(value.avatar)
           }
         }
       )
