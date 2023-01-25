@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from ..qr_code.models import PublicPlaceModel
 from .models import ReviewModel
-from .serilazers import ReviewSerializer
+from .serializers import ReviewSerializer
 
 
 class CreateReviewView(CreateAPIView):
@@ -23,6 +23,7 @@ class CreateReviewView(CreateAPIView):
         serializer = self.serializer_class(data=data, partial=True, context={'request': self.request})
         if serializer.is_valid():
             serializer.save(place=place)
+
             return Response({'detail': 'Review was created'}, status=status.HTTP_201_CREATED)
         else:
             return Response({'detail': serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
@@ -52,9 +53,9 @@ class ListReviewsView(ListAPIView):
             if serializer.data:
                 return self.get_paginated_response(serializer.data)
             else:
-                return Response({'detail': 'Place have no reviews yet...'}, status=status.HTTP_404_NOT_FOUND)
+                return Response({'detail': 'Place has no reviews yet...'}, status=status.HTTP_404_NOT_FOUND)
 
-        return Response({'detail': 'Place have no reviews yet...'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'detail': 'Place has no reviews yet...'}, status=status.HTTP_404_NOT_FOUND)
 
 
 class ListReviewsAvgScoreView(ListAPIView):

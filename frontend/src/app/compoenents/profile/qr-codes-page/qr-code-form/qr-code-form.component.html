@@ -8,9 +8,12 @@
       <label for="country">Country</label>
 <!--      <input class="form-control" required id="country" name="name" formControlName="country">-->
       <div class="form-control" style="color: black">
-          <mat-select  id="country" panelClass="mat-selection-panel" disableOptionCentering placeholder="Country" formControlName="country">
-            <mat-option style="width:2000px; background-color: white; color: black; font-size: 10px;" [value]="'UA'">
-              <span style="color: black !important;">Ukraine</span>
+          <mat-select
+            id="country"
+            placeholder="Country"
+            formControlName="country">
+            <mat-option style="color: black;background-color: white" [value]="'UA'">
+              <span>Ukraine</span>
             </mat-option>
           </mat-select>
       </div>
@@ -20,8 +23,6 @@
       <input class="form-control"  required id="street" name="street" formControlName="street">
       <label for="street_number">Street number</label>
       <input class="form-control" required  id="street_number" name="street_number" formControlName="street_number">
-      <label for="zipcode">Zipcode</label>
-      <input class="form-control" required  id="zipcode" name="zipcode" formControlName="zipcode">
     </div>
   </div>
   <button class="btn btn-primary" [disabled]="!_PlaceGroup.valid" type="submit">Create place</button>

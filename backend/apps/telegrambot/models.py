@@ -13,4 +13,7 @@ class TelegramTokenKey(models.Model):
         db_table = 'telegram_token_keys'
 
     token_key = models.CharField(max_length=64, default=token_urlsafe(16))
+    user_chat_id = models.CharField(max_length=255,blank=True)
+    is_active = models.BooleanField(default=False)
     user = models.OneToOneField(UserModel, on_delete=models.CASCADE, related_name='token_key')
+    telegram_user_nickname = models.CharField(max_length=255,blank=True)

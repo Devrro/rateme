@@ -25,12 +25,6 @@
             <input #file_upload formControlName="avatar" (change)="_uploadPicture($event)" name="profile_picture"
                    id="profile_picture" type="file" accept=".jpg,.png,.svg">
           </form>
-          <!--          <div *ngIf="avatar_error" class="" style="width: 200px;height: 200px;border-radius: 50%">-->
-          <!--            <div class="d-flex mat-error align-items-center justify-content-center gap-2 flex-column">-->
-          <!--              <div>{{avatar_error}}</div>-->
-          <!--              &lt;!&ndash;                <i style="font-size: 3rem" class="fa-solid fa-camera no_select"></i></div>&ndash;&gt;-->
-          <!--            </div>-->
-          <!--          </div>-->
         </div>
       </div>
       <hr>
@@ -86,26 +80,6 @@
                 >
               </div>
             </div>
-            <!--                              <div class="form-group row">-->
-            <!--                                <label for="select" class="col-4 col-form-label">Display Name public as</label>-->
-            <!--                                <div class="col-8">-->
-            <!--                                  <select id="select" name="select" class="custom-select">-->
-            <!--                                    <option value="admin">Admin</option>-->
-            <!--                                  </select>-->
-            <!--                                </div>-->
-            <!--                              </div>-->
-            <!--          <div class="form-group row mb-2">-->
-            <!--            <label for="age" class="col-4 col-form-label">Age: </label>-->
-            <!--            <div class="col-8">-->
-            <!--              <input-->
-            <!--                id="age"-->
-            <!--                name="age"-->
-            <!--                placeholder="Age"-->
-            <!--                class="form-control here"-->
-            <!--                formControlName="age"-->
-            <!--                type="text">-->
-            <!--            </div>-->
-            <!--          </div>-->
             <div class="form-group row mb-2">
               <label for="phone_number" class="col-4 col-form-label">Phone
                 number: {{currentUser.profile.phone_number}}</label>
@@ -119,51 +93,6 @@
                   type="text">
               </div>
             </div>
-
-            <!--          <div class="form-group row mb-2">-->
-
-            <!--            <div class="col-4 mb-2">-->
-            <!--              <label for="about_user" class="me-2 col-form-label">About</label>-->
-            <!--              <button type="button" (click)="_editAbout=!_editAbout" class="btn btn-secondary"> EDIT</button>-->
-            <!--            </div>-->
-            <!--            <div class="col-8">-->
-            <!--              <div class="row" *ngIf="!_editAbout">-->
-            <!--                <p class="form-control col w-100" style="height: 200px; background-color: #f4f4f4"-->
-            <!--                   *ngIf="currentUser.profile.about_user">{{currentUser.profile.about_user}}-->
-            <!--                </p>-->
-            <!--              </div>-->
-
-            <!--              <div class="row position-relative" *ngIf="_editAbout">-->
-            <!--                  <textarea-->
-            <!--                    id="about_user"-->
-            <!--                    name="about_user"-->
-            <!--                    class="form-control col w-100 text-field"-->
-            <!--                    style="height: 200px"-->
-            <!--                    formControlName="about_user"-->
-
-            <!--                    [placeholder]="_placeholderInfo"-->
-            <!--                    (ngModelChange)="charactersonChange($event)"-->
-            <!--                  >-->
-            <!--                  </textarea>-->
-            <!--                  <span *ngIf="_minChars>0" class="text-field-placeholder">Minimum characters {{_minChars}}</span>-->
-            <!--              </div>-->
-            <!--            </div>-->
-            <!--          </div>-->
-
-            <!--    This action needs to be separated to another form      -->
-            <!--          <div class="form-group row mb-2">-->
-            <!--            <label for="newpass" class="col-4 col-form-label">New Password</label>-->
-            <!--            <div class="col-8">-->
-            <!--              <input-->
-            <!--                id="newpass"-->
-            <!--                name="newpass"-->
-            <!--                placeholder="New Password"-->
-            <!--                class="form-control here"-->
-            <!--                formControlName="password"-->
-            <!--                type="text"-->
-            <!--              >-->
-            <!--            </div>-->
-            <!--          </div>-->
             <div class="form-group row">
               <div class="col-12">
                 <button name="submit" type="submit" [disabled]="!userForm.valid" class="btn btn-primary">Update My
@@ -176,10 +105,18 @@
       </div>
     </div>
   </div>
+</div>
 
-  <ng-template #profile_pic_placeholder>
+<ng-template #profile_pic_placeholder>
+  <div class="picture_center">
     <div class="d-flex align-items-center justify-content-center mb-3"
          style="width: 150px;height: 150px;border-radius: 50%;overflow: hidden">
-      <img style="max-width: 200px;max-height: 200px" src="./assets/img/profile_place_holder.jpg"
+      <img style="object-fit: cover;width: 200px;height: 200px;" src="./assets/img/profile_place_holder.jpg"
            alt="user photo placeholder"></div>
-  </ng-template>
+    <div class="save_me" style="width: 200px;height: 200px;border-radius: 50%">
+      <div class="d-flex align-items-center justify-content-center gap-2 flex-column">
+        <div>Max 2 mb</div>
+        <i style="font-size: 3rem" class="fa-solid fa-camera no_select"></i></div>
+    </div>
+  </div>
+</ng-template>

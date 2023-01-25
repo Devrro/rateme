@@ -28,18 +28,18 @@ class GetAvatarSerializer(ModelSerializer):
         model = ProfileModel
         fields = ('avatar',)
 
-        qr_code = SerializerMethodField()
+        # qr_code = SerializerMethodField()
 
     def get_avatar(self, obj):
         req = self.context.get('request')
         # profile_instance = ProfileModel.objects.get()
-        if isinstance(obj,dict):
-            avatar_url = req.build_absolute_uri(obj.get('url',''))
+        if isinstance(obj, dict):
+            avatar_url = req.build_absolute_uri(obj.get('url', ''))
         else:
             avatar_url = req.build_absolute_uri(obj.url)
         avatar_url = sub(pattern=r'/media/', repl=r'/api/media/', string=f'{avatar_url}', )
-        print(avatar_url)
         return avatar_url
+
 
 class ProfileSerializer(ModelSerializer):
     avatar = SerializerMethodField(read_only=True)
@@ -48,12 +48,14 @@ class ProfileSerializer(ModelSerializer):
         model = ProfileModel
         exclude = ('user', 'id')
 
-    def get_avatar(self,obj):
-        serializer = GetAvatarSerializer(instance=obj.avatar,many=False,context=self.context)
-        if serializer.data:
-            return serializer.data.get('avatar', None)
-        else:
-            return None
+    def get_avatar(self, obj):
+        if obj.avatar:
+            serializer = GetAvatarSerializer(instance=obj.avatar, many=False, context=self.context)
+            if serializer.data:
+                return serializer.data.get('avatar', None)
+            else:
+                return None
+        return None
 
 
 class TelegramTokenSerializer(ModelSerializer):
@@ -101,5 +103,5 @@ class UserSerializer(ModelSerializer):
         user: UserModel = UserModel.objects.create_user(**validated_data)
         TelegramTokenKey.objects.create(user=user)
         ProfileModel.objects.create(**profile, user=user)
-        EmailService.register(user=user,)
+        EmailService.register(user=user, )
         return user

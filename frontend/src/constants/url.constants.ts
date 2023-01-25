@@ -10,9 +10,11 @@ export const user_urls = {
 
 export const boards_url = {
   me: `${URL}/users/me`,
+  activate: `${URL}/activate`,
   profile: `${URL}/users/profile`,
   avatar: `${URL}/users/avatar`,
   all_users: `${URL}/users/all`,
+  telegramKeyObject: `${URL}/telegram_connection`,
 }
 
 export const PublicPlaceUrl = {

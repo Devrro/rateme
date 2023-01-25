@@ -1,6 +1,6 @@
 import os.path
-from uuid import uuid1
 from io import BytesIO
+from uuid import uuid1
 
 import qrcode as q
 

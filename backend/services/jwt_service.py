@@ -1,14 +1,15 @@
 from typing import Type, Union
 
-from core.enums.action_enums import ActionToken
-from core.exceptions.jwt_exception import JwtException
-from rest_framework_simplejwt.tokens import BlacklistMixin, Token
-
 from django.contrib.auth import get_user_model
 
 from rest_framework.generics import get_object_or_404
 
+from rest_framework_simplejwt.tokens import BlacklistMixin, Token
+
 from apps.users.models import UserModel as UserModelTyping
+
+from core.enums.action_enums import ActionToken
+from core.exceptions.jwt_exception import JwtException
 
 UserModel: UserModelTyping = get_user_model()
 

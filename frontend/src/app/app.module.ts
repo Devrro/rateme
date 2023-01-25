@@ -35,6 +35,12 @@ import {QrCodeFormComponent} from './compoenents/profile/qr-codes-page/qr-code-f
 import {ReviewQrFormComponent} from './compoenents/review-qr-form/review-qr-form.component';
 import {MatSelectModule} from "@angular/material/select";
 import {MatPaginatorModule} from "@angular/material/paginator";
+import { TelegramInfoComponent } from './compoenents/profile/telegram-info/telegram-info.component';
+import { ProfileActivateComponent } from './compoenents/signup/profile-activate/profile-activate.component';
+import { ProfileActivatedComponent } from './compoenents/signup/profile-activate/profile-activated/profile-activated.component';
+import { RedirectPagesComponent } from './compoenents/redirect-pages/redirect-pages.component';
+import { Redirect404Component } from './compoenents/redirect-pages/redirect404/redirect404.component';
+import {MatSliderModule} from "@angular/material/slider";
 
 
 const mdbModules = [
@@ -67,22 +73,28 @@ const mdbModules = [
     QrCodesPageComponent,
     QrReviewsPageComponent,
     QrCodeFormComponent,
-    ReviewQrFormComponent
+    ReviewQrFormComponent,
+    TelegramInfoComponent,
+    ProfileActivateComponent,
+    ProfileActivatedComponent,
+    RedirectPagesComponent,
+    Redirect404Component,
   ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        FormsModule,
-        HttpClientModule,
-        NgbModule,
-        ReactiveFormsModule,
-        NgbModule,
-        BrowserAnimationsModule,
-        MatSelectModule,
-        // SharedModule
-        ...mdbModules,
-        MatPaginatorModule,
-    ],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
+    NgbModule,
+    ReactiveFormsModule,
+    NgbModule,
+    BrowserAnimationsModule,
+    MatSelectModule,
+    // SharedModule
+    ...mdbModules,
+    MatPaginatorModule,
+    MatSliderModule,
+  ],
   providers: [AuthServiceProvider],
   bootstrap: [AppComponent]
 

@@ -1,11 +1,11 @@
-from core.permissions.place_owner_permission import PlaceOwnerPermission
-
 from django.contrib.auth import get_user_model
 
 from rest_framework import filters, status
 from rest_framework.generics import CreateAPIView, DestroyAPIView, ListAPIView, UpdateAPIView, get_object_or_404
 from rest_framework.permissions import AllowAny, IsAdminUser, IsAuthenticated
 from rest_framework.response import Response
+
+from core.permissions.place_owner_permission import PlaceOwnerPermission
 
 from ..users.models import UserModel as UserModelTyping
 from .models import AddressModel, PublicPlaceModel

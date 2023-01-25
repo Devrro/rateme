@@ -1,6 +1,9 @@
 import {Injectable} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {BehaviorSubject, catchError, Observable, tap} from "rxjs";
+import {catchError} from "rxjs";
+import {tap} from "rxjs";
+import {Observable} from "rxjs";
+import {BehaviorSubject} from "rxjs";
 import {user_urls} from '../constants/url.constants'
 import {IProfile, IUserModelInfo, IUserModelSignUp} from "../models/IUser";
 import {ITokenPair} from "../models/ITokenPair";
@@ -77,7 +80,8 @@ export class AuthService {
       this.saveUser(user)
     }
   }
-  public updateUserAvatar(avatar:string): void {
+
+  public updateUserAvatar(avatar: string): void {
     const user = this.getUser()
     if (user) {
       user.profile.avatar = avatar

@@ -7,7 +7,7 @@ from rest_framework.response import Response
 
 from .models import ProfileModel
 from .models import UserModel as UserModelPrototype
-from .serializers import AvatarSerializer, ProfileSerializer, UserSerializer, GetAvatarSerializer
+from .serializers import AvatarSerializer, GetAvatarSerializer, ProfileSerializer, UserSerializer
 
 UserModel: UserModelPrototype = get_user_model()
 

@@ -13,11 +13,11 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
-
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
+
+from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 from .settings import MEDIA_ROOT, MEDIA_URL
 
@@ -27,7 +27,8 @@ urlpatterns = [
     path('review', include('apps.reviews.urls')),
     path('login', TokenObtainPairView.as_view(), name='obtain_token_pair'),
     path('token/refresh', TokenRefreshView.as_view(), name='refresh_token_pair'),
-    path('auth', include('apps.user_auth.urls'), name='auth_options')
+    path('auth', include('apps.user_auth.urls'), name='auth_options'),
+    path('telegram_connection', include('apps.telegrambot.urls'), name='telegram')
 ]
 
 urlpatterns += static(MEDIA_URL, document_root=MEDIA_ROOT)

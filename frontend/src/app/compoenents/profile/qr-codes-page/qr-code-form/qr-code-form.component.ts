@@ -32,7 +32,6 @@ export class QrCodeFormComponent implements OnInit {
         city: new FormControl(),
         street: new FormControl(),
         street_number: new FormControl(),
-        zipcode: new FormControl(),
       })
     })
   }

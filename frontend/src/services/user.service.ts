@@ -4,6 +4,7 @@ import {Observable} from "rxjs";
 import {IProfile, IUserModelInfo} from "../models/IUser";
 import {boards_url} from "../constants/url.constants";
 import {IResponse} from "../models/IResponse";
+import {ITelegramObject} from "../models/ITelegramObject";
 
 @Injectable({
   providedIn: 'root'
@@ -33,4 +34,11 @@ export class UserService {
     return this.http.patch<{avatar:string}>(`${boards_url.avatar}`,formData)
   }
 
+  getUserTelegramKeyObject():Observable<IResponse<ITelegramObject>>{
+    return this.http.get<IResponse<ITelegramObject>>(`${boards_url.telegramKeyObject}`)
+  }
+
+  activateUser(token:string):Observable<{ detail: string }>{
+    return this.http.get<{detail:string}>(`${boards_url.activate}/${token}`, )
+  }
 }

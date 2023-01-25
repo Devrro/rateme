@@ -1,6 +1,6 @@
-from .views import ActivateUserView, ConfirmNewPasswordView, RefreshUserPasswordView
-
 from django.urls import path
+
+from .views import ActivateUserView, ConfirmNewPasswordView, RefreshUserPasswordView
 
 urlpatterns = [
     path('/activate/<str:token>', ActivateUserView.as_view(), name='user_activate_account'),

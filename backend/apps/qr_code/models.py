@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from django.core.validators import RegexValidator
 from django.db import models
 
-from .services import save_qr_to,save_place_pic_to
+from .services import save_place_pic_to, save_qr_to
 
 UserModel = get_user_model()
 
@@ -44,7 +44,6 @@ class AddressModel(models.Model):
     city = models.CharField(max_length=64)
     street = models.CharField(max_length=64)
     street_number = models.IntegerField()
-    zipcode = models.IntegerField()
 
 
 class QrModel(models.Model):
