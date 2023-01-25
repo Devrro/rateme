@@ -1,0 +1,24 @@
+<div class="card mb-5">
+  <div class="card-body">
+    <div class="row">
+      <div class="col justify-content-center align-items-center">
+        <p style="text-align: center">To connect your telegram send code to <a
+          style="text-decoration: none;color: #ccc5cc" target="_blank" href="https://t.me/RateMe_app_bot">RateMeApp</a>
+          bot</p>
+      </div>
+      <div class="row">
+        <div class="col">Your telegram code: {{telegramCode}}</div>
+      </div>
+      <div class="row">
+        <div class="col-2 ">
+          <div class="slide_container card px-2 py-2">
+            <label for="telegram_range">Activate</label>
+            <input type="range" step="10" [min]="0" [max]="10" value="0" class="slider" id="telegram_range"
+            [(ngModel)]="slider_value" (ngModelChange)="setValue($event)"
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

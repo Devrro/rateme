@@ -2,3 +2,4 @@
 /backend/storage/
 
 .env
+/mysql_db/
