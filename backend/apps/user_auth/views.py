@@ -25,19 +25,26 @@ class ActivateUserView(GenericAPIView):
 
 class RefreshUserPasswordView(GenericAPIView):
     permission_classes = (AllowAny,)
+    queryset = UserModel.objects.all()
+
+    # def get_queryset(self):
+    #     qs = self.queryset.filter(email=self.request.data.get('email'))
+    #     return qs
 
     def post(self, *args, **kwargs):
         data = self.request.data
+
         serialized_email = EmailSerializer(data=data)
         serialized_email.is_valid(raise_exception=True)
         user_email = serialized_email.data.get('email')
-
         user = get_object_or_404(UserModel, email=user_email)
         EmailService.recovery(user)
         return Response({'detail': 'Check your mail and follow instructions'}, status=status.HTTP_200_OK)
 
 
 class ConfirmNewPasswordView(GenericAPIView):
+
+    permission_classes = (AllowAny,)
 
     def post(self, *args, **kwargs):
         token = kwargs.get('token')
@@ -48,6 +55,6 @@ class ConfirmNewPasswordView(GenericAPIView):
 
         user: UserModelTyping = JwtService.validate_token(token, RefreshPassword)
 
-        user.set_password(serialized_password.data)
+        user.set_password(serialized_password.data.get('password'))
         user.save()
         return Response({'detail': 'Password change confirmed'}, status=status.HTTP_200_OK)

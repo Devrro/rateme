@@ -9,9 +9,15 @@ class EmailSerializer(ModelSerializer):
     class Meta:
         model = UserModel
         fields = ('email',)
+        extra_kwargs = {
+            'email': {
+                'validators': []
+            }
+        }
+        # read_only_fields = ('email',)
 
 
 class PasswordSerializer(ModelSerializer):
     class Meta:
         model = UserModel
-        fields = ('email',)
+        fields = ('password',)

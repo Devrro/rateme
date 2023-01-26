@@ -48,7 +48,7 @@ export class SignupComponent implements OnInit {
         next: (value) => {
           this.isSuccessful = true
           this.isSignUpFailed = false
-          this.router.navigate(['login'])
+          this.router.navigate(['../','login'])
         },
         error: (err) => {
           if (err.error.email) {

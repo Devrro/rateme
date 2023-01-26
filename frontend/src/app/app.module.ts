@@ -41,6 +41,7 @@ import { ProfileActivatedComponent } from './compoenents/signup/profile-activate
 import { RedirectPagesComponent } from './compoenents/redirect-pages/redirect-pages.component';
 import { Redirect404Component } from './compoenents/redirect-pages/redirect404/redirect404.component';
 import {MatSliderModule} from "@angular/material/slider";
+import { PasswordRecoveryComponent } from './compoenents/signup/password-recovery/password-recovery.component';
 
 
 const mdbModules = [
@@ -79,6 +80,7 @@ const mdbModules = [
     ProfileActivatedComponent,
     RedirectPagesComponent,
     Redirect404Component,
+    PasswordRecoveryComponent,
   ],
   imports: [
     BrowserModule,

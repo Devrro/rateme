@@ -16,12 +16,14 @@ import {
   ProfileActivatedComponent
 } from "./compoenents/signup/profile-activate/profile-activated/profile-activated.component";
 import {Redirect404Component} from "./compoenents/redirect-pages/redirect404/redirect404.component";
+import {PasswordRecoveryComponent} from "./compoenents/signup/password-recovery/password-recovery.component";
 
 const routes: Routes = [
   {path: '', component: HomeComponent},
   {path: 'signin', component: LoginComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'activate/:token', component: ProfileActivateComponent},
+  {path: 'password_recovery/:token', component: PasswordRecoveryComponent},
   {path: 'user_is_activated', component: ProfileActivatedComponent},
   {
     path: 'profile', component: ProfileComponent, canActivate: [UserGuard],

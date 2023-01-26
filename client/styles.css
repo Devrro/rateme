@@ -17881,5 +17881,8 @@ body {
   -webkit-user-select: none; /* Safari */ /* IE 10 and IE 11 */
   user-select: none; /* Standard syntax */
 }
+.yellow_text {
+  color: var(--yellow_munsell);
+}
 
 /*# sourceMappingURL=styles.css.map*/

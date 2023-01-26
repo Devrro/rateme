@@ -10,7 +10,9 @@ export const user_urls = {
 
 export const boards_url = {
   me: `${URL}/users/me`,
-  activate: `${URL}/activate`,
+  activate: `${URL}/auth/activate`,
+  resetPassword: `${URL}/auth/reset_password`,
+  confirmNewPassword: `${URL}/auth/confirm_new_password`,
   profile: `${URL}/users/profile`,
   avatar: `${URL}/users/avatar`,
   all_users: `${URL}/users/all`,

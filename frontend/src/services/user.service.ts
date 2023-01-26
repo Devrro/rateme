@@ -5,6 +5,7 @@ import {IProfile, IUserModelInfo} from "../models/IUser";
 import {boards_url} from "../constants/url.constants";
 import {IResponse} from "../models/IResponse";
 import {ITelegramObject} from "../models/ITelegramObject";
+import {FormGroup} from "@angular/forms";
 
 @Injectable({
   providedIn: 'root'
@@ -40,5 +41,13 @@ export class UserService {
 
   activateUser(token:string):Observable<{ detail: string }>{
     return this.http.get<{detail:string}>(`${boards_url.activate}/${token}`, )
+  }
+
+  recoverPassword(email: {email:string}):Observable<{ detail: string }>{
+    return this.http.post<{detail: string}>(`${boards_url.resetPassword}`,{...email})
+  }
+
+  sendNewPassword(token: string, password:string):Observable<{detail:string}> {
+    return this.http.post<{detail:string}>(`${boards_url.confirmNewPassword}/${token}`,{password:password})
   }
 }
